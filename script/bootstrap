@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+DEBIAN_FRONTEND=noninteractive
+MARKER_FILE="/usr/local/etc/vagrant_provision_marker"
+
+# Only provision once
+if [ -f "${MARKER_FILE}" ]; then
+  exit 0
+fi
+
+rm -rf /var/lib/apt/lists/*
+apt-get update -qq -y
+apt-get install -qq -y build-essential bsdtar wget curl git make gcc
+apt-get install -qq -y libgmp-dev zlib1g-dev libxml2-dev libxslt-dev python-dev
+
+#ruby-dev
+
+# Import the mpapis public key to verify downloaded releases
+curl -sSL https://rvm.io/mpapis.asc | gpg -q --import -
+
+# Install RVM
+curl -sL https://get.rvm.io | bash -s stable
+
+# Add the vagrant user to the RVM group
+usermod -a -G rvm vagrant
+
+source /usr/local/rvm/scripts/rvm
+rvm install 2.2.1
+rvm use 2.2.1 --default
+
+ruby --version
+gem install rubygems-update --no-ri --no-rdoc
+
+#update_rubygems
+gem update --system
+
+gem install bundler --no-ri --no-rdoc
+
+bundle install
+
+bundle update
+
+# Touch the marker file so we don't do this again
+touch ${MARKER_FILE}

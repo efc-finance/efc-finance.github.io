@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# script/deploy: Overwrites gh-pages branch with the latest build
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+rake site:publish
