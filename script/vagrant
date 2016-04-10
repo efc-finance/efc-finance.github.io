@@ -21,7 +21,8 @@ then
     cd $HOME_DIR
 fi
 
-echo " cd ${HOME_DIR}" | sudo tee -a /home/vagrant/.bash_profile
+echo "cd ${HOME_DIR}" | sudo tee -a /home/vagrant/.bash_profile
+echo "echo "gem: --no-ri --no-rdoc" > /home/vagrant/.gemrc"
 
 #configure git
 git config --global push.default simple

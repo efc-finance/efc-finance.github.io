@@ -19,23 +19,11 @@ fi
 
 rm -rf /var/lib/apt/lists/*
 apt-get update -qq -y
-apt-get install -qq -y build-essential bsdtar wget curl git make gcc
-apt-get install -qq -y libgmp-dev zlib1g-dev libxml2-dev libxslt-dev python-dev
+apt-get install -qq -y build-essential wget curl git
 
-#ruby-dev
-
-# Import the mpapis public key to verify downloaded releases
-curl -sSL https://rvm.io/mpapis.asc | gpg -q --import -
-
-# Install RVM
-curl -sL https://get.rvm.io | bash -s stable
-
-# Add the vagrant user to the RVM group
-usermod -a -G rvm vagrant
-
-source /usr/local/rvm/scripts/rvm
-rvm install 2.2.1
-rvm use 2.2.1 --default
+apt-add-repository ppa:brightbox/ruby-ng
+apt-get update -qq -y
+apt-get install ruby2.3 ruby2.3-dev -qq -y
 
 ruby --version
 gem install rubygems-update --no-ri --no-rdoc
@@ -44,6 +32,8 @@ gem install rubygems-update --no-ri --no-rdoc
 gem update --system
 
 gem install bundler --no-ri --no-rdoc
+
+echo "echo "gem: --no-ri --no-rdoc" > ~/.gemrc"
 
 bundle install
 
