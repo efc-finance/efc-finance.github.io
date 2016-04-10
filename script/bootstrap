@@ -31,13 +31,5 @@ gem install rubygems-update --no-ri --no-rdoc
 #update_rubygems
 gem update --system
 
-gem install bundler --no-ri --no-rdoc
-
-echo "echo "gem: --no-ri --no-rdoc" > ~/.gemrc"
-
-bundle install
-
-bundle update
-
 # Touch the marker file so we don't do this again
 touch ${MARKER_FILE}

@@ -8,4 +8,10 @@ set -o errtrace
 
 cd $(dirname $0)/..
 
+gem install bundler --no-ri --no-rdoc
+
+bundle install
+
+bundle update
+
 bundle exec jekyll new . --force
