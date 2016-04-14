@@ -9,4 +9,4 @@ set -o errtrace
 
 cd $(dirname $0)/..
 
-bundle exec htmlproof ./_site --disable-external
+bundle exec htmlproofer ./_site --disable-external

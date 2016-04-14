@@ -8,9 +8,17 @@ set -o errtrace
 
 cd $(dirname $0)/..
 
+ping_result="$(ping -c 2 8.8.4.4 2>&1)"
+if [[ $ping_result != *bytes?from* ]]; then
+    echo "Network connection unavailable. Try again later."
+    exit 1
+fi
+
 ln -s /vagrant $HOME/website
 
 source /vagrant/script/settings
+
+echo "gem: --no-ri --no-rdoc" > /home/vagrant/.gemrc
 
 /vagrant/script/bootstrap
 
@@ -22,7 +30,6 @@ then
 fi
 
 echo "cd ${HOME_DIR}" | sudo tee -a /home/vagrant/.bash_profile
-echo "echo "gem: --no-ri --no-rdoc" > /home/vagrant/.gemrc"
 
 #configure git
 git config --global push.default simple
@@ -31,5 +38,3 @@ git config --global core.autocrlf input
 #update editor configs
 cp /vagrant/.inputrc /home/vagrant
 cp /vagrant/.vimrc /home/vagrant
-
-chown -R vagrant:vagrant /home/vagrant

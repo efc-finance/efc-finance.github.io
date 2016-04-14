@@ -8,4 +8,7 @@ set -o errtrace
 
 cd $(dirname $0)/..
 
+source script/settings
+GITHUB_REPONAME=$GITHUB_REPONAME \
+GITHUB_PUBLISH_BRANCH=$GITHUB_PUBLISH_BRANCH \
 rake site:publish

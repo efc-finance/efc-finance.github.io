@@ -13,6 +13,8 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/trusty64"
+  config.vm.hostname = "jekyll-github-pages"
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -23,11 +25,11 @@ Vagrant.configure(2) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-  #config.vm.network "forwarded_port", guest: 4000, host: 4000
+  config.vm.network "forwarded_port", guest: 4000, host: 4000
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.10"
 
   config.ssh.forward_agent = true
 
@@ -42,17 +44,23 @@ Vagrant.configure(2) do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
 
+  #share the ssh keys from your host box
+  config.vm.synced_folder "~/.ssh", "/home/vagrant/.ssh"
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
-  # end
+      vb.customize ["modifyvm", :id, "--memory", 512]
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -72,7 +80,18 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
 
-  config.vm.provision "shell", privileged: true, path: "script/vagrant"
+  config.vm.provision "shell", privileged: false, path: "script/vagrant"
   #config.vm.provision "shell", privileged: false, path: "script/server", run: "always"
+
+  #set the git user and email from your host box
+  if File.exists?(File.join(Dir.home, ".gitconfig"))
+    git_name = `git config user.name`   # find locally set git name
+    git_email = `git config user.email` # find locally set git email
+    # set git name for 'vagrant' user on VM
+    config.vm.provision :shell, :inline => "echo 'Saving local git username to VM...' && sudo -i -u vagrant git config --global user.name '#{git_name.chomp}'"
+    # set git email for 'vagrant' user on VM
+    config.vm.provision :shell, :inline => "echo 'Saving local git email to VM...' && sudo -i -u vagrant git config --global user.email '#{git_email.chomp}'"
+  end
+
 
 end
