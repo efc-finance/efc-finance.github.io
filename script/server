@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# script/server: Launch the application and any extra required processes
+#                locally.
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+ROOT_DIR=$PWD
+
+if [ -f "$ROOT_DIR/script/settings" ]
+then
+    source $ROOT_DIR/script/settings
+else
+    source /vagrant/script/settings
+fi
+
+cd $HOME_DIR && jekyll server --watch --detach --port 4000

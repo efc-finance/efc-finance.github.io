@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+DEBIAN_FRONTEND=noninteractive
+
+#sudo -rf /var/lib/apt/lists/*
+sudo apt-get update -qq -y
+sudo apt-get install -qq -y build-essential bsdtar wget curl git
+sudo apt-get install -qq -y libgmp-dev zlib1g-dev libxml2-dev libxslt-dev python-dev
+
+# http://rvm.io/rvm/install
+gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+curl -sSL https://get.rvm.io | bash -s stable --ruby --quiet-curl
+source ~/.rvm/scripts/rvm
+
+ruby --version
+gem install rubygems-update --no-ri --no-rdoc
+
+#update_rubygems
+gem update --system
+
+gem install bundler --no-ri --no-rdoc
+
+bundle install
+
+bundle update

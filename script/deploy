@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# script/deploy: Overwrites gh-pages branch with the latest build
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+source script/settings
+
+#GITHUB_REPONAME=$GITHUB_REPONAME \
+#GITHUB_PUBLISH_BRANCH=$GITHUB_PUBLISH_BRANCH \
+#rake site:publish
+
+mkdir -p .tmp
+cp -r _site/* .tmp
+pushd .tmp
+git init
+git add .
+
+Site updated at #{Time.now.utc}"
+git commit -m "Site updated at $(date)"
+git remote add origin git@github.com:${GITHUB_REPONAME}.git
+git push origin master:refs/heads/$GITHUB_PUBLISH_BRANCH} --force
+
+popd

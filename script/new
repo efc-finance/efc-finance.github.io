@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# script/new: Creates a new jekyll site
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+mv .gitignore .gitignore.old
+bundle exec jekyll new . --force
+mv .gitignore.old .gitignore

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# script/cibuild: Setup environment for CI to run tests. This is primarily
+#                 designed to run on the continuous integration server.
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+rm -rf _site
+bundle exec jekyll build
+
+script/test
