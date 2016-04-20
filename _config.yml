@@ -1,0 +1,7 @@
+name: Equipment Finance Corporation
+description: Equipment Finance Corporation
+#paginate: 10
+# Build settings
+markdown: kramdown
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://efc-finance.github.io" # the base hostname & protocol for your site
