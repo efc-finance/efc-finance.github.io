@@ -23,12 +23,13 @@ Since the equipment is owned by the Lessor, leased equipment, in many cases, is 
 sheet. This improves debt-to-equity ratios and the business's overall credit position. Leasing is a financing
 alternative for businesses that are unable to take advantage of accelerated tax depreciation. Leasing can also provide
 a hedge against equipment obsolescence.
- 
+
 **Loans**
 
-In a Loan transaction, EFC provides financing secured by a lien in the acquired equipment. The purchaser receives all
-benefits of ownership.
-  
+In a Loan transaction, EFC provides financing secured by a lien in the acquired equipment. The purchaser receives all benefits of ownership.
+
+Loans made or arranged pursuant to a California Financing Law License.
+
 **Sale-Leasebacks**
 
 In a sale-leaseback, a business sells some or all of its capital equipment to EFC and then we immediately lease the
