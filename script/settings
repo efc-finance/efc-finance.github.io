@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# script/settings: variables, configurations and settings
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+HOME_DIR=/home/vagrant/website
+
+GITHUB_REPONAME="efc-finance/efc-finance.github.io"
+GITHUB_PUBLISH_BRANCH="master"

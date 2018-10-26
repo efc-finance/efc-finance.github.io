@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+ruby --version
+gem install rubygems-update --no-ri --no-rdoc
+
+#update_rubygems
+gem update --system
+
+bundle install
+
+bundle update

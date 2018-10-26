@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# script/vagrant: Setup vagrant environment after cloning
+
+set -e
+set -o errexit
+set -o errtrace
+
+cd $(dirname $0)/..
+
+ping_result="$(ping -c 2 8.8.4.4 2>&1)"
+if [[ $ping_result != *bytes?from* ]]; then
+    echo "Network connection unavailable. Try again later."
+    exit 1
+fi
+
+source /vagrant/script/settings
+
+/vagrant/script/bootstrap
+
